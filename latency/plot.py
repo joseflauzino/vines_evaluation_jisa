@@ -42,7 +42,7 @@ def count_packets(raw_data, step):
 			try:
 				data[g_index]+=1
 			except:
-				print "Exception: trying to increment o index %s. Value=%s" % (g_index,j)
+				print("Exception: trying to increment o index %s. Value=%s" % (g_index,j))
 	return data
 
 def truncate(f, n):
@@ -66,7 +66,7 @@ def main(n, qtd_vnfs, limit, step):
 		with open(current_file) as raw_data:
 			data.append(count_packets(raw_data, step))
 	make_plot(n, data, limit, step)
-	print "Done"
+	print("Done")
 
 if __name__ == "__main__":
 	msg = """

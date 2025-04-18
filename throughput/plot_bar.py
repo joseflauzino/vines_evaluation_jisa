@@ -14,23 +14,36 @@ matplotlib.rc('axes', labelsize=24)
 # number of VNF in the chain
 # labels = ['2', '3','4','5']
 labels = ['2', '4','6','8','10']
+y_labels = [0,2,4,6,8,10]
 n = 0
 bandwith = ""
 def make_plots(cloudstack,openstack,file_name):
-    x = ['2', '4','6','8','10'] #np.arange(len(labels))  # the label locations
+    x = [2 , 4, 6, 8, 10] #np.arange(len(labels))  # the label locations
     #width = 0.25  # the width of the bars
-    width = 0.4  # the width of the bars
+    width = 0.6  # the width of the bars
     fig, ax = plt.subplots()
     fig.subplots_adjust(left=0.1, bottom=0.1, right=0.99, top=1, wspace=0, hspace=0)
     ax.grid(True,linestyle='--',axis='y')
-    rects1 = ax.bar(x, cloudstack['avg'], width, capsize=5, yerr=cloudstack['error'], edgecolor='black', color='white', ls='-', hatch= 'xxx')
-    #rects1 = ax.bar(x - width/2, cloudstack['avg'], width, capsize=5, yerr=cloudstack['error'], edgecolor='black', color='white', ls='-', hatch= 'xxx', label='CloudStack/Vines')
-    #rects2 = ax.bar(x + width/2, openstack['avg'], width, capsize=5, yerr=openstack['error'], edgecolor='black', color='white', ls='-', hatch= '//', label='OpenStack/Tacker')
-    ax.set_ylabel('Throughput [Mbps]')
-    ax.set_xlabel('Number of VNFs in the chain')
+    x_cloudstack = []
+    x_openstack = []
+    for i in x:
+        x_cloudstack.append(i - width/2)
+        x_openstack.append(i + width/2)
+    # rects1 = ax.bar(test, cloudstack['avg'], width, capsize=5, yerr=cloudstack['error'], edgecolor='black', color='white', ls='-', hatch= 'xxx')
+    rects1 = ax.bar(x_cloudstack, cloudstack['avg'], width, capsize=5, yerr=cloudstack['error'], edgecolor='black', color='white', ls='-', hatch= 'xxx', label='CloudStack/Vines')
+    rects2 = ax.bar(x_openstack, openstack['avg'], width, capsize=5, yerr=openstack['error'], edgecolor='black', color='white', ls='-', hatch= '...', label='OpenStack/Tacker')
+    ax.set_ylabel('Throughput [Gbps]')
+    ax.set_xlabel('Number of VNFs in the SFC')
     ax.set_xticks(x)
+    ax.set_yticks(y_labels)
+
+
+    baseline = 9.35  # <-- Substitua com o valor desejado
+    ax.axhline(y=baseline, color='blue', linestyle='--', linewidth=1, zorder=0)
+
     #ax.set_xticklabels(labels)
-    #ax.legend(loc='upper right')
+    # ax.set_yticklabels(labels)
+    ax.legend(loc='lower right')
     fig.tight_layout()
     plt.savefig(file_name)
 
