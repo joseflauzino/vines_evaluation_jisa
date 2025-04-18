@@ -45,7 +45,7 @@ def main():
 		monitore_cpu_usage()
 		monitore_mem_usage()
 		monitore_swap_usage()
-		time.sleep(1)
+		time.sleep(0.8)
 	save_file("cpu")
 	save_file("mem")
 	save_file("swap")
